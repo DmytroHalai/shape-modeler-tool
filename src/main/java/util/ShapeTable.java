@@ -72,4 +72,32 @@ public class ShapeTable extends JDialog {
             ex.printStackTrace();
         }
     }
+
+    public void loadTable(JFileChooser owner) {
+        if (owner.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            loadTable(owner.getSelectedFile());
+
+        }
+    }
+
+    private void loadTable(File file) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String headerLine = reader.readLine();
+            if (headerLine == null) {
+                throw new IOException("The file is empty or injured");
+            }
+
+            tableModel.setRowCount(0);
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] values = line.split("\t");
+                tableModel.addRow(values);
+            }
+
+            currentFile = file;
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
 }
