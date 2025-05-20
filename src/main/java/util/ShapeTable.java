@@ -100,4 +100,30 @@ public class ShapeTable extends JDialog {
             ex.printStackTrace();
         }
     }
+
+    private String colorToRGB(Color color) {
+        int red = color.getRed();
+        int green = color.getGreen();
+        int blue = color.getBlue();
+        return red + "," + green + "," + blue;
+    }
+
+    public void setCurrentFile(File file){
+        currentFile = file;
+    }
+
+    private void showBrushCoordinates(BrushShape brush) {
+        JFrame frame = new JFrame("Brush Coordinates");
+        DefaultTableModel model = new DefaultTableModel(new String[]{"X", "Y"}, 0);
+        JTable coordinatesTable = new JTable(model);
+
+        for (Point point : brush.getPoints()) {
+            model.addRow(new Object[]{point.x, point.y});
+        }
+
+        frame.add(new JScrollPane(coordinatesTable));
+        frame.setSize(300, 200);
+        frame.setLocationRelativeTo(this);
+        frame.setVisible(true);
+    }
 }
