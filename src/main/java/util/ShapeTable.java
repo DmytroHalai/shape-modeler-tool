@@ -21,4 +21,12 @@ public class ShapeTable extends JDialog {
     public void addBrushRow(String name, String x1, String y1, String x2, String y2, String borderColor, String fillColor, int thickness) {
         tableModel.addRow(new Object[]{name, x1, y1, x2, y2, borderColor, fillColor, thickness});
     }
+
+    private String pointsToString(List<Point> points) {
+        StringBuilder sb = new StringBuilder();
+        for (Point point : points) {
+            sb.append("(").append(point.x).append(",").append(point.y).append(") ");
+        }
+        return sb.toString().trim();
+    }
 }
