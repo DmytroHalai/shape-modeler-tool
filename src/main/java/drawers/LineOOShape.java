@@ -4,23 +4,25 @@ import java.awt.*;
 
 public class LineOOShape extends Shape implements EllipseDrawer, LineDrawer {
 
+    final int RADIUS = 10;
+
     @Override
     public void showEl(Graphics2D g, int x, int y, int width, int height, boolean isMark, boolean isHighlight) {
         if (fillColor != Color.WHITE) {
             g.setColor(fillColor);
-            new StrokeSetter(g, thickness, isMark, 10);
+            new StrokeSetter(g, thickness, isMark, RADIUS);
             g.fillOval(x, y, width, height);
         }
 
         g.setColor(isHighlight ? Color.green : borderColor);
-        new StrokeSetter(g, thickness, isMark, 10);
+        new StrokeSetter(g, thickness, isMark, RADIUS);
         g.drawOval(x, y, width, height);
     }
 
     @Override
     public void showLine(Graphics2D g, int x, int y, int x2, int y2, boolean isMark, boolean isHighlight) {
         g.setColor(isHighlight ? Color.green : borderColor);
-        new StrokeSetter(g, thickness, isMark, 10);
+        new StrokeSetter(g, thickness, isMark, RADIUS);
         g.drawLine(xs1, ys1, xs2, ys2);
     }
 
