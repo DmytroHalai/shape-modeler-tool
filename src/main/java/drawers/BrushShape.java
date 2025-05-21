@@ -1,11 +1,11 @@
 package drawers;
 
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class BrushShape extends Shape{
-    private List<Point> points = new ArrayList<>();
+    private List<Point> points = new LinkedList<>();
 
     public void addPoint(int x, int y) {
         points.add(new Point(x, y));
