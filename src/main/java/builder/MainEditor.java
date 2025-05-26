@@ -57,7 +57,7 @@ public class MainEditor extends JPanel {
             shapeEditor.onLBup();
             repaintShapes();
         }
-        catch (Exception ignored){};
+        catch (Exception ignored){}
     }
 
     public void onMouseMove(int x, int y) {

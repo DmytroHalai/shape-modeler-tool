@@ -9,22 +9,22 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 
 public class ShapeEditorFrame extends JFrame {
-    private final MainEditor EDITOR;
+    private final MainEditor editor;
 
     private final JFileChooser fileChooser = new JFileChooser(new File("."));
 
     public ShapeEditorFrame() {
-        EDITOR = MainEditor.getInstance(this);
-        ShapeToolBar shapeToolBar = new ShapeToolBar(EDITOR);
+        editor = MainEditor.getInstance(this);
+        ShapeToolBar shapeToolBar = new ShapeToolBar(editor);
 
         setTitle("sHapE modeLer tooL");
 
         ImageIcon appIcon = new ImageIcon("/pic/icon.png");
         setIconImage(appIcon.getImage());
 
-        EDITOR.setPreferredSize(new Dimension(2000, 2000));
+        editor.setPreferredSize(new Dimension(2000, 2000));
 
-        JScrollPane scrollPane = new JScrollPane(EDITOR);
+        JScrollPane scrollPane = new JScrollPane(editor);
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
@@ -33,7 +33,7 @@ public class ShapeEditorFrame extends JFrame {
 
         setJMenuBar(createMenuBar());
         add(scrollPane, BorderLayout.CENTER);
-        add(shapeToolBar.get_panel(), BorderLayout.NORTH);
+        add(shapeToolBar.getPanel(), BorderLayout.NORTH);
 
         pack();
         setLocationRelativeTo(null);
@@ -49,26 +49,26 @@ public class ShapeEditorFrame extends JFrame {
         JMenu fileMenu = new JMenu("File");
 
         JMenuItem showTableItem = new JMenuItem("Show table");
-        showTableItem.addActionListener(e -> EDITOR.showTable());
+        showTableItem.addActionListener(e -> editor.showTable());
         shapeMenu.add(showTableItem);
 
         JMenuItem saveTableAs = new JMenuItem("Save as");
-        saveTableAs.addActionListener(e -> EDITOR.saveTableAs(fileChooser));
+        saveTableAs.addActionListener(e -> editor.saveTableAs(fileChooser));
         fileMenu.add(saveTableAs);
 
         JMenuItem saveTable = new JMenuItem("Save");
-        saveTable.addActionListener(e -> EDITOR.saveTable(fileChooser));
+        saveTable.addActionListener(e -> editor.saveTable(fileChooser));
         fileMenu.add(saveTable);
 
         JMenuItem loadTable = new JMenuItem("Load from");
-        loadTable.addActionListener(e -> EDITOR.loadAndRepaint(EDITOR, fileChooser));
+        loadTable.addActionListener(e -> editor.loadAndRepaint(editor, fileChooser));
         fileMenu.add(loadTable);
 
         JMenuItem deleteAllShapes = new JMenuItem("Delete all shapes");
         deleteAllShapes.addActionListener(e -> {
-            EDITOR.getCurrentShapeEditor().deleteShapes();
-            EDITOR.setCurrentFile(null);
-            EDITOR.repaintShapes();
+            editor.getCurrentShapeEditor().deleteShapes();
+            editor.setCurrentFile(null);
+            editor.repaintShapes();
         });
         shapeMenu.add(deleteAllShapes);
 
@@ -89,11 +89,11 @@ public class ShapeEditorFrame extends JFrame {
                 file = new File(file.getAbsolutePath() + ".png");
             }
             try {
-                Dimension size = EDITOR.getCanvasSize();
+                Dimension size = editor.getCanvasSize();
                 BufferedImage image = new BufferedImage(size.width, size.height, BufferedImage.TYPE_INT_ARGB);
                 Graphics2D g2d = image.createGraphics();
 
-                EDITOR.renderScene(g2d);
+                editor.renderScene(g2d);
                 g2d.setBackground(Color.WHITE);
                 g2d.dispose();
 
@@ -106,13 +106,12 @@ public class ShapeEditorFrame extends JFrame {
     }
 
     private void initMouseListeners() {
-        EDITOR.addMouseListener(new MouseAdapter() {
+        editor.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
                 try {
-                    EDITOR.onLBdown(e.getX(), e.getY());
-                }
-                catch (Exception error){
+                    editor.onLBdown(e.getX(), e.getY());
+                } catch (Exception error) {
                     JOptionPane.showMessageDialog(
                             new JFrame(),
                             error.getMessage(),
@@ -125,45 +124,41 @@ public class ShapeEditorFrame extends JFrame {
             @Override
             public void mouseReleased(MouseEvent e) {
                 try {
-                    EDITOR.onLBup();
+                    editor.onLBup();
                 } catch (InstantiationException | IllegalAccessException ex) {
                     throw new RuntimeException(ex);
                 }
-                EDITOR.repaint();
+                editor.repaint();
             }
         });
 
-        EDITOR.addMouseMotionListener(new MouseAdapter() {
+        editor.addMouseMotionListener(new MouseAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
-                EDITOR.onMouseMove(e.getX(), e.getY());
-                EDITOR.repaint();
+                editor.onMouseMove(e.getX(), e.getY());
+                editor.repaint();
             }
         });
     }
 
     private void initKeyBindings() {
-        InputMap inputMap = EDITOR.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
-        ActionMap actionMap = EDITOR.getActionMap();
+        InputMap inputMap = editor.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        ActionMap actionMap = editor.getActionMap();
 
         inputMap.put(KeyStroke.getKeyStroke("ctrl Z"), "undo");
         actionMap.put("undo", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                EDITOR.getCurrentShapeEditor().undoLastShape();
-                EDITOR.repaint();
+                editor.getCurrentShapeEditor().undoLastShape();
+                editor.repaint();
             }
         });
-
-
-
-
 
         inputMap.put(KeyStroke.getKeyStroke("ctrl S"), "save");
         actionMap.put("save", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                EDITOR.saveTable(fileChooser);
+                editor.saveTable(fileChooser);
             }
         });
     }

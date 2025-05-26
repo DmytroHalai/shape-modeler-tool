@@ -21,7 +21,7 @@ public class ShapeToolBar {
         initSettingsPanel();
     }
 
-    public JPanel get_panel() {
+    public JPanel getPanel() {
         return panel;
     }
 
@@ -98,7 +98,9 @@ public class ShapeToolBar {
 
     private void changeButtonColor(ActionEvent e) {
         JButton sourceButton = (JButton) e.getSource();
-        if (!(lastPressedButton == null || lastPressedButton == sourceButton)) {
+        boolean isButtonPressed = lastPressedButton == null;
+        boolean isButtonChanged = lastPressedButton != sourceButton;
+        if (!isButtonPressed && isButtonChanged) {
             lastPressedButton.setBackground(Color.WHITE);
         }
         sourceButton.setBackground(Color.PINK);
