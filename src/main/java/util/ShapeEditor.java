@@ -57,8 +57,6 @@ public class ShapeEditor {
         this.highlightedShape = null;
     }
 
-
-
     public List<Shape> getShapes() {
         return shapes;
     }
