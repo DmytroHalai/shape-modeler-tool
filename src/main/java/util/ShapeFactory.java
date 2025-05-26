@@ -3,7 +3,7 @@ package util;
 import drawers.*;
 
 public class ShapeFactory {
-    public Shape createShape(String type) {
+    public static Shape createShape(String type) {
         return switch (type) {
             case "Ellipse" -> new EllipseShape();
             case "Rectangle" -> new RectShape();
