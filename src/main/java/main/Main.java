@@ -1,17 +1,52 @@
 package main;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+import builder.ShapeEditorFrame;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.Objects;
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+        ShapeEditorFrame mainFrame = new ShapeEditorFrame();
+        mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        mainFrame.setExtendedState(Frame.MAXIMIZED_BOTH);
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
-        }
+        JWindow introWindow = new JWindow();
+        JLabel gifLabel = new JLabel(new ImageIcon(Objects.requireNonNull(Main.class.getResource("/pic/my_intro.gif"))));
+        introWindow.getContentPane().add(gifLabel);
+
+        GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+        introWindow.setSize(gd.getDisplayMode().getWidth(), gd.getDisplayMode().getHeight());
+        gd.setFullScreenWindow(introWindow);
+
+        introWindow.setVisible(true);
+
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                introWindow.setVisible(false);
+                introWindow.dispose();
+
+                SwingUtilities.invokeLater(() -> mainFrame.setVisible(true));
+            }
+        }, 11000);
+
+        introWindow.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                introWindow.setVisible(false);
+                introWindow.dispose();
+
+                timer.cancel();
+
+                SwingUtilities.invokeLater(() -> mainFrame.setVisible(true));
+            }
+        });
     }
 }
