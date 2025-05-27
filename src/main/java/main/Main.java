@@ -17,7 +17,7 @@ public class Main {
         mainFrame.setExtendedState(Frame.MAXIMIZED_BOTH);
 
         JWindow introWindow = new JWindow();
-        JLabel gifLabel = new JLabel(new ImageIcon(Objects.requireNonNull(Main.class.getResource("/builder/pic/my_intro.gif"))));
+        JLabel gifLabel = new JLabel(new ImageIcon(Objects.requireNonNull(Main.class.getResource("/pic/my_intro.gif"))));
         introWindow.getContentPane().add(gifLabel);
 
         GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
