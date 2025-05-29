@@ -17,7 +17,7 @@ import java.util.Vector;
 public class ShapeEditor {
     protected final List<Shape> shapes = new ArrayList<>();
     private final ShapeTable shapeTable;
-    protected boolean isDragging = false;
+    public boolean isDragging = false;
     protected Shape currentShape;
     private Shape highlightedShape;
 
