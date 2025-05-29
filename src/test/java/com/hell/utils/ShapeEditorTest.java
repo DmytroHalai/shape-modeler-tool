@@ -5,7 +5,6 @@ import drawers.LineShape;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import util.ShapeEditor;
 
 import java.awt.*;
@@ -17,11 +16,10 @@ class ShapeEditorTest {
 
     @BeforeEach
     void setUp() {
-        Frame dummyFrame = new Frame(); // ❌ причина HeadlessException
-        MainEditor dummyEditor = Mockito.mock(MainEditor.class);
-        editor = new ShapeEditor(dummyEditor, null); // або передавати нуль, якщо це допустимо
+        Frame frame = new Frame();
+        MainEditor mainEditor = new MainEditor(frame);
+        editor = new ShapeEditor(mainEditor, frame);
     }
-
 
     @Test
     void onLBdown_setsDraggingAndInitialCoords() {

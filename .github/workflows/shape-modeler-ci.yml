@@ -24,3 +24,5 @@ jobs:
 
       - name: Build and run tests
         run: mvn clean test
+        env:
+          JAVA_TOOL_OPTIONS: "-Djava.awt.headless=true"
