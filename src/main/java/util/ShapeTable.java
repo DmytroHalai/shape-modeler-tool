@@ -2,8 +2,8 @@ package util;
 
 import builder.MainEditor;
 import drawers.BrushShape;
-import drawers.Shape;
 import drawers.PointShape;
+import drawers.Shape;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -212,7 +212,7 @@ public class ShapeTable extends JDialog {
         return red + "," + green + "," + blue;
     }
 
-    public void setCurrentFile(File file){
+    public void setCurrentFile(File file) {
         currentFile = file;
     }
 
