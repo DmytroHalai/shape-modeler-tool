@@ -1,0 +1,153 @@
+@startuml
+
+package utils {
+    class ShapeEditor{
+        #boolean isDragging
+        #List<Shape> shapes
+        -ShapeTable shapeTable
+        #Shape currentShape
+        -Shape highlightedShape
+        +ShapeEditor(MainEditor editor, Frame owner)
+        +onLBdown(int x, int y)
+        +onLBup()
+        +onMouseMove(int x, int y)
+        +onPaint()
+        +void setCurrentShape(Shape shape)
+        +void undoLastShape()
+        +void highlightShape(Shape shape)
+        +void updateTable()
+        +void showTable()
+        +List<Shape> getShapes()
+        +void deleteShapes()
+        +void updateShapesArrayFromTable(DefaultTableModel table)
+        +void createShapeFromRow(Vector row)
+    }
+
+    class ShapeTable{
+        -DefaultTableModel tableModel
+        -JTable myJTable
+        -JFileChooser myJFileChooser
+        +ShapeTable(Frame owner, MainEditor editor)
+        +void addRow(String name, int x1, int y1, int x2, int y2)
+        +void updateTable(List<Shape> shapes)
+        -void saveTable()
+        -void saveTable(File file)
+        -Vector<String> getColumnNames()
+        -void loadTable()
+        -void loadTable(File file)
+    }
+
+    class ShapeFactory{
+        +Shape createShape(String type)
+    }
+}
+
+package builder {
+    class ShapeEditorFrame {
+        -MyEditor editor
+        +ShapeEditorFrame()
+        -JMenuBar createMenuBar()
+        -void initMouseListeners()
+        -void initKeyBindings()
+    }
+
+    class MainEditor {
+        -ShapeEditor shapesEditor
+        +MainEditor(Frame owner)
+        +void setCurrentShape(Shape shape)
+        +ShapeEditor getCurrentShapeEditor()
+        +onLBdown(Graphics g, int x, int y)
+        +onLBup(Graphics g)
+        +onMouseMove(Graphics g, int x, int y)
+        #void paintComponent(Graphics g)
+        +void showTable()
+        +void highlightShape(Shape shape)
+        +void repaintShapes()
+    }
+
+    class ShapeToolBar {
+        -JPanel panel
+        -JButton lastPressedButton
+        -MainEditor editor
+        +ShapeToolBar(MainEditor editor)
+        +JPanel getPanel()
+        -void initButtons()
+        -void addToolBarButton(String iconPath, ActionListener action)
+        -JButton createButtonWithIcon(String iconPath)
+        -void setCurrentShape(Shape shape, ActionEvent e)
+        -void changeButtonColor(ActionEvent e)
+    }
+
+ShapeToolBar <-- ShapeEditorFrame
+}
+
+package drawers {
+    abstract class Shape {
+        #int xs1, ys1, xs2, ys2
+        +set(int x1, int y1, int x2, int y2)
+        +show(Graphics g, boolean isMark)
+    }
+
+    Shape <|-u- EllipseShape
+    Shape <|-u- LineShape
+    Shape <|-u- PointShape
+    Shape <|-u- RectShape
+
+    class EllipseShape {
+        +show(Graphics g, boolean isMark)
+    }
+
+    class LineShape {
+        +show(Graphics g, boolean isMark)
+    }
+
+    class PointShape {
+        +show(Graphics g, boolean isMark)
+    }
+
+    class RectShape {
+        +show(Graphics g, boolean isMark)
+    }
+
+    class CubeShape extends Shape implements LineDrawer, RectDrawer {
+        +void showLine(Graphics2D g, int x, int y, int x2, int y2, boolean isMark)
+        +void showRect(Graphics2D g, int x, int y, int width, boolean isMark)
+        -void drawRects(Graphics2D g, boolean isMark)
+        -void drawLines(Graphics2D g, boolean isMark)
+        -double calcVectorLength(int x, int y, int x2, int y2)
+        -int[] findSecondRectCoord(int x, int y, int sideLength)
+        -double findSideLength(int x, int y, int x2, int y2)
+        +void show(Graphics2D g, boolean isMark)
+    }
+
+    interface EllipseDrawer {
+        +void showEl(Graphics2D g, int x, int y, int width, int height, boolean isMark)
+    }
+
+    interface LineDrawer {
+        +void showLine(Graphics2D g, int x, int y, int x2, int y2, boolean isMark)
+    }
+
+    class LineOOShape extends Shape implements EllipseDrawer, LineDrawer {
+        +void showEl(Graphics2D g, int x, int y, int width, int height, boolean isMark)
+        +void showLine(Graphics2D g, int x, int y, int x2, int y2, boolean isMark)
+        -void drawElls(Graphics2D g, int r, boolean isMark)
+        +void show(Graphics2D g, boolean isMark)
+    }
+
+    interface RectDrawer {
+        +void showRect(Graphics2D g, int x1, int y1, int width, boolean isMark)
+    }
+}
+
+class Main {
+    +main(String[] args)
+}
+
+Main --> MainEditor
+ShapeEditorFrame --> MainEditor
+MainEditor --> ShapeEditor
+Shape <-- ShapeEditor
+ShapeFactory <-- ShapeEditor
+ShapeTable <-- ShapeEditor
+@enduml
