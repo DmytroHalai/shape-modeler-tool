@@ -15,7 +15,7 @@ public class MainEditor extends JPanel {
     private Color fillColor = Color.WHITE;
     private int borderThickness = 1;
 
-    private MainEditor(Frame owner) {
+    public MainEditor(Frame owner) {
         shapeEditor = new ShapeEditor(this, owner);
     }
 
