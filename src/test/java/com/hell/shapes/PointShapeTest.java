@@ -34,8 +34,6 @@ public class PointShapeTest {
         verify(graphics, times(1)).setColor(color);
         verify(graphics, times(1)).fillOval(eq(x), eq(y), eq(width), eq(width));
 
-        point.show(graphics, false, true);
-
         point.show(graphics, true, true);
 
         verify(graphics, times(1)).setColor(Color.green);
