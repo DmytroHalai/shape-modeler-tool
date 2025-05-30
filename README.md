@@ -1,6 +1,6 @@
-# Shape Modeler Tool
+# HELL - sHapE modeEer tooL
 
-Shape Modeler Tool is a Java-based application designed to model and manipulate geometric shapes. It provides functionality to create, modify, and analyze various geometric shapes.
+HELL is a Java-based application designed to model and manipulate geometric shapes. It provides functionality to create, modify, and analyze various geometric shapes.
 
 ## Features
 
