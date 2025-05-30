@@ -3,7 +3,7 @@ name: Shape Modeler CI
 on:
   pull_request:
     branches:
-      - main
+      - master
       - production
 
 jobs:
