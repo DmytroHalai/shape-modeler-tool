@@ -167,6 +167,11 @@ public class ShapeEditor {
         }
     }
 
+    public void updateShapes(List<Shape> shapes) {
+        this.shapes.clear();
+        this.shapes.addAll(shapes);
+    }
+
     public void saveTableAs(JFileChooser owner) {
         shapeTable.saveTableAs(owner);
     }
