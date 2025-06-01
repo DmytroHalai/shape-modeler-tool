@@ -7,6 +7,7 @@ public abstract class Shape {
     public int ys1;
     protected int xs2;
     protected int ys2;
+    protected boolean isFilled = false;
     protected Color borderColor = Color.BLACK;
     protected Color fillColor = Color.WHITE;
     protected int thickness = 1;
@@ -41,7 +42,12 @@ public abstract class Shape {
     }
 
     public void setFillColor(Color fillColor) {
+        isFilled = true;
         this.fillColor = fillColor;
+    }
+
+    public void makeEmpty() {
+        isFilled = false;
     }
 
     public void setThickness(int thickness) {
