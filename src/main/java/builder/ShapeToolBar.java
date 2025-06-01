@@ -62,6 +62,17 @@ public class ShapeToolBar {
         });
         settingsPanel.add(fillColorButton);
 
+        JCheckBox fillColorCheckBox = new JCheckBox("Fill shape:");
+        fillColorCheckBox.setHorizontalTextPosition(SwingConstants.LEFT);
+        fillColorCheckBox.addActionListener(e -> {
+            if (fillColorCheckBox.isSelected()) {
+                editor.fillShape();
+            } else {
+                editor.makeShapeEmpty();
+            }
+        });
+        settingsPanel.add(fillColorCheckBox);
+
         JLabel thicknessLabel = new JLabel("Thickness:");
         JSpinner thicknessSpinner = new JSpinner(new SpinnerNumberModel(1, 1, 100, 1));
         thicknessSpinner.addChangeListener(e -> {

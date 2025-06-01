@@ -8,7 +8,7 @@ public class LineSegmentShape extends Shape implements EllipseDrawer, LineDrawer
 
     @Override
     public void showEl(Graphics2D g, int x, int y, int width, int height, boolean isMark, boolean isHighlight) {
-        if (fillColor != Color.WHITE) {
+        if (isFilled) {
             g.setColor(fillColor);
             new StrokeSetter(g, thickness, isMark, RADIUS);
             g.fillOval(x, y, width, height);
