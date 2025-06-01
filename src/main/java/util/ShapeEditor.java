@@ -2,11 +2,16 @@ package util;
 
 import drawers.BrushShape;
 import drawers.Shape;
+import util.commands.AddCommand;
+import util.commands.DeleteCommand;
+import util.commands.ReversibleCommand;
+import util.commands.UpdateCommand;
 import util.updateShapesEvent.UpdateShapesEventSource;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 
 public class ShapeEditor {
@@ -14,6 +19,7 @@ public class ShapeEditor {
     public boolean isDragging = false;
     protected Shape currentShape;
     private Shape highlightedShape;
+    private final Stack<ReversibleCommand> changes = new Stack<>();
 
     public final UpdateShapesEventSource onUpdateShapes = new UpdateShapesEventSource();
 
@@ -28,9 +34,12 @@ public class ShapeEditor {
         isDragging = false;
         Shape temp = currentShape.getClass().newInstance();
         if (currentShape != null) {
+            Shape added = currentShape;
             shapes.add(currentShape);
             currentShape = temp;
             onUpdateShapes.invoke(shapes);
+
+            changes.push(new AddCommand(shapes, added));
         }
     }
 
@@ -62,8 +71,11 @@ public class ShapeEditor {
 
     public void undoLastShape() {
         if (!shapes.isEmpty()) {
-            shapes.removeLast();
+            Shape deleted = shapes.removeLast();
             onUpdateShapes.invoke(shapes);
+
+            int index = shapes.size();
+            changes.push(new DeleteCommand(shapes, deleted, index));
         }
     }
 
@@ -83,24 +95,39 @@ public class ShapeEditor {
 
     public void deleteShapes(){
         if (!shapes.isEmpty()) {
+            List<Shape> previous = new ArrayList<>(shapes);
             shapes.clear();
             onUpdateShapes.invoke(shapes);
+
+            changes.push(new UpdateCommand(shapes, previous));
         }
     }
 
     public void removeShape(int index) {
         if (index >= 0 && index < shapes.size()) {
-            shapes.remove(index);
+            Shape deleted = shapes.remove(index);
             onUpdateShapes.invoke(shapes);
+
+            changes.push(new DeleteCommand(shapes, deleted, index));
         }
     }
 
     public void updateShapes(List<Shape> shapes) {
+        List<Shape> previous = new ArrayList<>(this.shapes);
         this.shapes.clear();
         this.shapes.addAll(shapes);
+
+        changes.push(new UpdateCommand(this.shapes, previous));
     }
 
     public Shape getShape(){
         return currentShape;
+    }
+
+    public void undo(){
+        if (!changes.isEmpty()) {
+            changes.pop().undo();
+            onUpdateShapes.invoke(shapes);
+        }
     }
 }
