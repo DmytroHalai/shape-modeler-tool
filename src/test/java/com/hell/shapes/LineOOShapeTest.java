@@ -1,6 +1,6 @@
 package com.hell.shapes;
 
-import drawers.LineOOShape;
+import drawers.LineSegmentShape;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,14 +13,14 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 public class LineOOShapeTest {
-    private LineOOShape lineOO;
+    private LineSegmentShape lineSegment;
     private Graphics2D graphics;
     int x1, y1, x2, y2, r, halfR;
     Color borderColor;
 
     @BeforeEach
     public void setUp() {
-        lineOO = new LineOOShape();
+        lineSegment = new LineSegmentShape();
         r = 10;
         halfR = r / 2;
         x1 = 10;
@@ -34,16 +34,16 @@ public class LineOOShapeTest {
     public void getType_ReturnTypeOfShape() {
         String type = "LineOO";
 
-        Assertions.assertEquals(type, lineOO.getType());
+        Assertions.assertEquals(type, lineSegment.getType());
     }
 
     @Test
     public void show_WithoutFillColor(){
-        lineOO.set(x1, y1, x2, y2);
-        lineOO.setBorderColor(borderColor);
+        lineSegment.set(x1, y1, x2, y2);
+        lineSegment.setBorderColor(borderColor);
         graphics = mock(Graphics2D.class);
 
-        lineOO.show(graphics, false, false);
+        lineSegment.show(graphics, false, false);
 
         verify(graphics, times(3)).setColor(borderColor);
         verify(graphics, times(1)).drawLine(eq(x1), eq(y1), eq(x2), eq(y2));
@@ -52,7 +52,7 @@ public class LineOOShapeTest {
 
         verify(graphics, never()).fillOval(anyInt(), anyInt(), anyInt(), anyInt());
 
-        lineOO.show(graphics, false, true);
+        lineSegment.show(graphics, false, true);
 
         verify(graphics, times(3)).setColor(Color.GREEN);
     }
@@ -60,12 +60,12 @@ public class LineOOShapeTest {
     @Test
     public void show_WithFillColor(){
         Color fillColor = Color.BLUE;
-        lineOO.set(x1, y1, x2, y2);
-        lineOO.setBorderColor(borderColor);
-        lineOO.setFillColor(fillColor);
+        lineSegment.set(x1, y1, x2, y2);
+        lineSegment.setBorderColor(borderColor);
+        lineSegment.setFillColor(fillColor);
         graphics = mock(Graphics2D.class);
 
-        lineOO.show(graphics, false, false);
+        lineSegment.show(graphics, false, false);
 
         verify(graphics, times(3)).setColor(borderColor);
         verify(graphics, times(2)).setColor(fillColor);
@@ -75,7 +75,7 @@ public class LineOOShapeTest {
         verify(graphics, times(1)).drawOval(eq(x2-halfR), eq(y2-halfR), eq(r), eq(r));
         verify(graphics, times(1)).fillOval(eq(x2-halfR), eq(y2-halfR), eq(r), eq(r));
 
-        lineOO.show(graphics, false, true);
+        lineSegment.show(graphics, false, true);
 
         verify(graphics, times(3)).setColor(Color.GREEN);
     }

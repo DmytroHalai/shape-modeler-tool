@@ -2,7 +2,7 @@ package drawers;
 
 import java.awt.*;
 
-public class LineOOShape extends Shape implements EllipseDrawer, LineDrawer {
+public class LineSegmentShape extends Shape implements EllipseDrawer, LineDrawer {
 
     final int RADIUS = 10;
 
@@ -40,6 +40,6 @@ public class LineOOShape extends Shape implements EllipseDrawer, LineDrawer {
 
     @Override
     public String getType() {
-        return "LineOO";
+        return "LineSegment";
     }
 }
