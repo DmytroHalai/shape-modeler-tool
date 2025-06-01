@@ -76,7 +76,6 @@ public class ShapeTable extends JDialog {
         JPopupMenu popupMenu = new JPopupMenu();
         JMenuItem deleteMenuItem = new JMenuItem("Delete");
 
-
         deleteMenuItem.addActionListener(e -> {
             int row = myJTable.getSelectedRow();
             if (row >= 0) {
@@ -119,8 +118,10 @@ public class ShapeTable extends JDialog {
                 addBrushRow(shape.getType(), "Array of coords", coordinates, "", "", colorToRGB(shape.getBorderColor()),
                         colorToRGB(shape.getFillColor()), shape.getThickness());
             } else {
+                boolean isFilled = shape.isFilled();
+                String fillColorStr = isFilled ? colorToRGB(shape.getFillColor()) : "";
                 addRow(shape.getType(), shape.getXs1(), shape.getYs1(), shape.getXs2(), shape.getYs2(),
-                        colorToRGB(shape.getBorderColor()), colorToRGB(shape.getFillColor()), shape.getThickness());
+                        colorToRGB(shape.getBorderColor()), fillColorStr, shape.getThickness());
             }
         }
     }
@@ -197,13 +198,17 @@ public class ShapeTable extends JDialog {
         int x2 = Integer.parseInt((String) row.get(3));
         int y2 = Integer.parseInt((String) row.get(4));
         Color borderColor = rgbToColor((String) row.get(5));
-        Color fillColor = rgbToColor((String) row.get(6));
+        String fillColorStr = (String) row.get(6);
         int thickness = Integer.parseInt((String) row.get(7));
 
         Shape shape = ShapeFactory.createShape(name);
         shape.set(x1, y1, x2, y2);
         shape.setBorderColor(borderColor);
-        shape.setFillColor(fillColor);
+        if(fillColorStr.trim() != ""){
+            shape.setFillColor(rgbToColor(fillColorStr));
+        } else {
+            shape.makeEmpty();
+        }
         shape.setThickness(thickness);
         return shape;
     }
@@ -254,10 +259,9 @@ public class ShapeTable extends JDialog {
         }
     }
 
-    public void loadTable(JFileChooser owner) {
+    private void loadTable(JFileChooser owner) {
         if (owner.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             loadTable(owner.getSelectedFile());
-
         }
     }
 

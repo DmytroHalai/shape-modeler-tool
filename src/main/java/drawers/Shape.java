@@ -64,6 +64,10 @@ public abstract class Shape {
         return fillColor;
     }
 
+    public boolean isFilled() {
+        return isFilled;
+    }
+
     public int getThickness() {
         return thickness;
     }
