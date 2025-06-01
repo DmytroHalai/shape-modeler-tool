@@ -32,7 +32,7 @@ public class LineOOShapeTest {
 
     @Test
     public void getType_ReturnTypeOfShape() {
-        String type = "LineOO";
+        String type = "LineSegment";
 
         Assertions.assertEquals(type, lineSegment.getType());
     }
