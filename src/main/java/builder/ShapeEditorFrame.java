@@ -161,5 +161,13 @@ public class ShapeEditorFrame extends JFrame {
                 editor.saveTable(fileChooser);
             }
         });
+
+        inputMap.put(KeyStroke.getKeyStroke("ctrl T"), "showTable");
+        actionMap.put("showTable", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                editor.showTable();
+            }
+        });
     }
 }
