@@ -103,12 +103,4 @@ public class ShapeEditor {
     public Shape getShape(){
         return currentShape;
     }
-
-    private Color rgbToColor(String rgb) {
-        String[] parts = rgb.split(",");
-        int red = Integer.parseInt(parts[0].trim());
-        int green = Integer.parseInt(parts[1].trim());
-        int blue = Integer.parseInt(parts[2].trim());
-        return new Color(red, green, blue);
-    }
 }
