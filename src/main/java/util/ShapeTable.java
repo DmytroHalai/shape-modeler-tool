@@ -15,7 +15,12 @@ import java.util.List;
 import java.util.Vector;
 
 public class ShapeTable extends JDialog {
-    private final DefaultTableModel tableModel = new DefaultTableModel(new String[]{"Name", "x1", "y1", "x2", "y2", "Border Color", "Fill Color", "Thickness"}, 0);
+    private final DefaultTableModel tableModel = new DefaultTableModel(new String[]{"Name", "x1", "y1", "x2", "y2", "Border Color", "Fill Color", "Thickness"}, 0) {
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return false;
+        }
+    };
     private final JTable myJTable = new JTable(tableModel);
     private final JFileChooser myJFileChooser = new JFileChooser(new File("."));
     private File currentFile;
