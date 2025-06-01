@@ -1,8 +1,10 @@
 package builder;
 
-
 import drawers.Shape;
 import util.ShapeEditor;
+import util.ShapeTable;
+import util.updateShapesEvent.ShapeTableOnUpdateShapesEventListener;
+import util.updateTableEvent.ShapeEditorOnUpdateTableEventListener;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,13 +12,19 @@ import java.io.File;
 
 public class MainEditor extends JPanel {
     private final transient ShapeEditor shapeEditor;
+    private final transient ShapeTable shapeTable;
     private static MainEditor instance;
     private Color borderColor = Color.BLACK;
     private Color fillColor = Color.WHITE;
     private int borderThickness = 1;
 
     public MainEditor(Frame owner) {
-        shapeEditor = new ShapeEditor(this, owner);
+        shapeTable = new ShapeTable(owner, this);
+        shapeEditor = new ShapeEditor();
+        ShapeTableOnUpdateShapesEventListener tableListener = new ShapeTableOnUpdateShapesEventListener(shapeTable);
+        shapeEditor.onUpdateShapes.addListener(tableListener);
+        ShapeEditorOnUpdateTableEventListener editorListener = new ShapeEditorOnUpdateTableEventListener(shapeEditor);
+        shapeTable.onTableUpdate.addListener(editorListener);
     }
 
     public static MainEditor getInstance(Frame owner) {
@@ -73,7 +81,7 @@ public class MainEditor extends JPanel {
     }
 
     public void showTable() {
-        shapeEditor.showTable();
+        shapeTable.showTable();
     }
 
     public void highlightShape(Shape shape) {
@@ -94,15 +102,15 @@ public class MainEditor extends JPanel {
     }
 
     public void saveTableAs(JFileChooser owner){
-        shapeEditor.saveTableAs(owner);
+        shapeTable.saveTableAs(owner);
     }
 
     public void saveTable(JFileChooser owner){
-        shapeEditor.saveTable(owner);
+        shapeTable.saveTable(owner);
     }
 
     public void loadAndRepaint(MainEditor editor, JFileChooser myJFileChooser) {
-        shapeEditor.loadAndRepaint(editor, myJFileChooser);
+        shapeTable.loadAndRepaint(editor, myJFileChooser);
     }
 
     public void setBorderColor(Color color) {
@@ -126,6 +134,6 @@ public class MainEditor extends JPanel {
     }
 
     public void setCurrentFile(File file){
-        shapeEditor.setCurrentFile(file);
+        shapeTable.setCurrentFile(file);
     }
 }

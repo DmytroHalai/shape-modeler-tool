@@ -4,18 +4,23 @@ import builder.MainEditor;
 import drawers.BrushShape;
 import drawers.PointShape;
 import drawers.Shape;
+import util.updateTableEvent.UpdateTableEventSource;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 public class ShapeTable extends JDialog {
     private final DefaultTableModel tableModel = new DefaultTableModel(new String[]{"Name", "x1", "y1", "x2", "y2", "Border Color", "Fill Color", "Thickness"}, 0);
     private final JTable myJTable = new JTable(tableModel);
     private final JFileChooser myJFileChooser = new JFileChooser(new File("."));
     private File currentFile;
+
+    public final UpdateTableEventSource onTableUpdate = new UpdateTableEventSource();
 
     public ShapeTable(Frame owner, MainEditor editor) {
         super(owner, "Objects list", false);
@@ -147,10 +152,82 @@ public class ShapeTable extends JDialog {
         }
     }
 
+    public void showTable(){
+        this.setVisible(true);
+    }
+
     public void loadAndRepaint(MainEditor editor, JFileChooser myJFileChooser) {
         loadTable(myJFileChooser);
-        editor.getCurrentShapeEditor().updateShapesArrayFromTable(tableModel);
+        List<Shape> shapes = updateShapesArrayFromTable();
+        onTableUpdate.invoke(shapes);
         editor.repaintShapes();
+    }
+
+    private List<Shape> updateShapesArrayFromTable(){
+        List<Shape> shapes = new ArrayList<>();
+        int columnCount = tableModel.getRowCount();
+        Vector<Vector> dataVector = tableModel.getDataVector();
+        for (int i = 0; i < columnCount; i++){
+            Shape shape = createShapeFromRow(dataVector.get(i));
+            if (shape != null) {
+                shapes.add(shape);
+            }
+        }
+        return shapes;
+    }
+
+    private Shape createShapeFromRow(Vector row) {
+        try {
+            Shape shape;
+            String name = (String) row.getFirst();
+            if (name.equals("Brush")) shape = createBrushShapeFromRow(row);
+            else shape = createStaticShapeFromRow(row, name);
+            return shape;
+        } catch (NumberFormatException e) {
+            System.err.println("Error during conversion of coordinates: " + e.getMessage());
+        } catch (NullPointerException e) {
+            System.err.println("Uncorrected row in a table: " + e.getMessage());
+        }
+        return null;
+    }
+
+    private Shape createStaticShapeFromRow(Vector row, String name){
+        int x1 = Integer.parseInt((String) row.get(1));
+        int y1 = Integer.parseInt((String) row.get(2));
+        int x2 = Integer.parseInt((String) row.get(3));
+        int y2 = Integer.parseInt((String) row.get(4));
+        Color borderColor = rgbToColor((String) row.get(5));
+        Color fillColor = rgbToColor((String) row.get(6));
+        int thickness = Integer.parseInt((String) row.get(7));
+
+        Shape shape = ShapeFactory.createShape(name);
+        shape.set(x1, y1, x2, y2);
+        shape.setBorderColor(borderColor);
+        shape.setFillColor(fillColor);
+        shape.setThickness(thickness);
+        return shape;
+    }
+
+    private Shape createBrushShapeFromRow(Vector row) {
+        String points = (String) row.get(2);
+        Color borderColor = rgbToColor((String) row.get(5));
+        Color fillColor = rgbToColor((String) row.get(6));
+        int thickness = Integer.parseInt((String) row.get(7));
+
+        BrushShape shape = new BrushShape();
+        shape.setPoints(PointShape.stringToPoints(points));
+        shape.setBorderColor(borderColor);
+        shape.setFillColor(fillColor);
+        shape.setThickness(thickness);
+        return shape;
+    }
+
+    private Color rgbToColor(String rgb) {
+        String[] parts = rgb.split(",");
+        int red = Integer.parseInt(parts[0].trim());
+        int green = Integer.parseInt(parts[1].trim());
+        int blue = Integer.parseInt(parts[2].trim());
+        return new Color(red, green, blue);
     }
 
     private void saveTable(File file) {

@@ -5,10 +5,10 @@ import util.ShapeEditor;
 
 import java.util.List;
 
-public class ShapeTableOnUpdateTableEventListener implements UpdateTableEventListener{
+public class ShapeEditorOnUpdateTableEventListener implements UpdateTableEventListener{
     private final ShapeEditor editor;
 
-    public ShapeTableOnUpdateTableEventListener(ShapeEditor editor) {
+    public ShapeEditorOnUpdateTableEventListener(ShapeEditor editor) {
         this.editor = editor;
     }
 
