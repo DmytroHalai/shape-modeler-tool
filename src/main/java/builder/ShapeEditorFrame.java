@@ -1,5 +1,7 @@
 package builder;
 
+import util.KeyListener;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -142,40 +144,6 @@ public class ShapeEditorFrame extends JFrame {
     }
 
     private void initKeyBindings() {
-        InputMap inputMap = editor.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
-        ActionMap actionMap = editor.getActionMap();
-
-        inputMap.put(KeyStroke.getKeyStroke("ctrl Z"), "undo");
-        actionMap.put("undo", new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                editor.getCurrentShapeEditor().undoLastShape();
-                editor.repaint();
-            }
-        });
-
-        inputMap.put(KeyStroke.getKeyStroke("ctrl S"), "save");
-        actionMap.put("save", new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                editor.saveTable(fileChooser);
-            }
-        });
-
-        inputMap.put(KeyStroke.getKeyStroke("ctrl T"), "showTable");
-        actionMap.put("showTable", new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                editor.showTable();
-            }
-        });
-
-        inputMap.put(KeyStroke.getKeyStroke("ctrl L"), "load");
-        actionMap.put("load", new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                editor.loadAndRepaint(editor, fileChooser);
-            }
-        });
+        new KeyListener(editor, fileChooser);
     }
 }
