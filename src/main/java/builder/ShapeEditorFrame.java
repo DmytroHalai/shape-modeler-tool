@@ -115,7 +115,7 @@ public class ShapeEditorFrame extends JFrame {
                     JOptionPane.showMessageDialog(
                             new JFrame(),
                             error.getMessage(),
-                            "Помилка",
+                            "Error occurred during mouse press",
                             JOptionPane.ERROR_MESSAGE
                     );
                 }
