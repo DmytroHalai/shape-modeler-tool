@@ -33,7 +33,7 @@ public class ShapeToolBar {
         addToolBarButton("/pic/rect.png", e -> setCurrentShape(new RectShape(), e), shapeButtonsPanel);
         addToolBarButton("/pic/line.png", e -> setCurrentShape(new LineShape(), e), shapeButtonsPanel);
         addToolBarButton("/pic/point.png", e -> setCurrentShape(new PointShape(), e), shapeButtonsPanel);
-        addToolBarButton("/pic/lineOO.png", e -> setCurrentShape(new LineOOShape(), e), shapeButtonsPanel);
+        addToolBarButton("/pic/line-segment.png", e -> setCurrentShape(new LineSegmentShape(), e), shapeButtonsPanel);
         addToolBarButton("/pic/cube.png", e -> setCurrentShape(new CubeShape(), e), shapeButtonsPanel);
         addToolBarButton("/pic/brush.png", e -> setCurrentShape(new BrushShape(), e), shapeButtonsPanel);
 
