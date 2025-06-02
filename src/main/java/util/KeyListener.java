@@ -23,8 +23,10 @@ public class KeyListener {
         inputMap.put(KeyStroke.getKeyStroke("ctrl S"), "save");
         inputMap.put(KeyStroke.getKeyStroke("ctrl T"), "showTable");
         inputMap.put(KeyStroke.getKeyStroke("ctrl L"), "load");
+        inputMap.put(KeyStroke.getKeyStroke("ctrl X"), "deleteLastShape");
 
         actionMap.put("undo", undo());
+        actionMap.put("deleteLastShape", deleteLastShape());
         actionMap.put("save", save());
         actionMap.put("showTable", showTable());
         actionMap.put("load", load());
@@ -39,6 +41,16 @@ public class KeyListener {
     }
 
     public Action undo() {
+        return new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                editor.getCurrentShapeEditor().undo();
+                editor.repaint();
+            }
+        };
+    }
+
+    public Action deleteLastShape() {
         return new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
