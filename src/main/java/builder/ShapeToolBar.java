@@ -1,7 +1,7 @@
 package builder;
 
-import drawers.*;
 import drawers.Shape;
+import drawers.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,8 +10,8 @@ import java.awt.event.ActionListener;
 
 public class ShapeToolBar {
     private final JPanel panel;
-    private JButton lastPressedButton;
     private final MainEditor editor;
+    private JButton lastPressedButton;
 
     public ShapeToolBar(MainEditor editor) {
         this.panel = new JPanel();

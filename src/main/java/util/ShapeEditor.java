@@ -148,7 +148,7 @@ public class ShapeEditor {
         }
     }
 
-    public void setShapeFillColor(){
+    public void setShapeFillColor() {
         getShape().setFillColor(this.fillColor);
     }
 

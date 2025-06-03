@@ -5,7 +5,7 @@ import util.ShapeEditor;
 
 import java.util.List;
 
-public class ShapeEditorOnUpdateTableEventListener implements UpdateTableEventListener{
+public class ShapeEditorOnUpdateTableEventListener implements UpdateTableEventListener {
     private final ShapeEditor editor;
 
     public ShapeEditorOnUpdateTableEventListener(ShapeEditor editor) {

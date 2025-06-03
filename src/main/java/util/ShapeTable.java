@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Vector;
 
 public class ShapeTable extends JDialog {
+    public final UpdateTableEventSource onTableUpdate = new UpdateTableEventSource();
     private final DefaultTableModel tableModel = new DefaultTableModel(new String[]{"Name", "x1", "y1", "x2", "y2", "Border Color", "Fill Color", "Thickness"}, 0) {
         @Override
         public boolean isCellEditable(int row, int column) {
@@ -24,8 +25,6 @@ public class ShapeTable extends JDialog {
     private final JTable myJTable = new JTable(tableModel);
     private final JFileChooser myJFileChooser = new JFileChooser(new File("."));
     private File currentFile;
-
-    public final UpdateTableEventSource onTableUpdate = new UpdateTableEventSource();
 
     public ShapeTable(Frame owner, MainEditor editor) {
         super(owner, "Objects list", false);
@@ -158,7 +157,7 @@ public class ShapeTable extends JDialog {
         }
     }
 
-    public void showTable(){
+    public void showTable() {
         this.setVisible(true);
     }
 
@@ -169,11 +168,11 @@ public class ShapeTable extends JDialog {
         editor.repaintShapes();
     }
 
-    private List<Shape> updateShapesArrayFromTable(){
+    private List<Shape> updateShapesArrayFromTable() {
         List<Shape> shapes = new ArrayList<>();
         int columnCount = tableModel.getRowCount();
         Vector<Vector> dataVector = tableModel.getDataVector();
-        for (int i = 0; i < columnCount; i++){
+        for (int i = 0; i < columnCount; i++) {
             Shape shape = createShapeFromRow(dataVector.get(i));
             if (shape != null) {
                 shapes.add(shape);
@@ -197,7 +196,7 @@ public class ShapeTable extends JDialog {
         return null;
     }
 
-    private Shape createStaticShapeFromRow(Vector row, String name){
+    private Shape createStaticShapeFromRow(Vector row, String name) {
         int x1 = Integer.parseInt((String) row.get(1));
         int y1 = Integer.parseInt((String) row.get(2));
         int x2 = Integer.parseInt((String) row.get(3));
@@ -209,7 +208,7 @@ public class ShapeTable extends JDialog {
         Shape shape = ShapeFactory.createShape(name);
         shape.set(x1, y1, x2, y2);
         shape.setBorderColor(borderColor);
-        if(fillColorStr.trim() != ""){
+        if (fillColorStr.trim() != "") {
             shape.setFillColor(rgbToColor(fillColorStr));
         } else {
             shape.makeEmpty();

@@ -11,9 +11,9 @@ import java.awt.*;
 import java.io.File;
 
 public class MainEditor extends JPanel {
+    private static MainEditor instance;
     private final transient ShapeEditor shapeEditor;
     private final transient ShapeTable shapeTable;
-    private static MainEditor instance;
 
     public MainEditor(Frame owner) {
         shapeTable = new ShapeTable(owner, this);
@@ -45,26 +45,25 @@ public class MainEditor extends JPanel {
     }
 
     public void onLBdown(int x, int y) throws Exception {
-        try{
+        try {
             shapeEditor.setShapeColor();
-            if(shapeEditor.isFillShape()){
+            if (shapeEditor.isFillShape()) {
                 shapeEditor.setShapeFillColor();
             }
             shapeEditor.setShapeThickness();
             shapeEditor.unHighlightShape();
             shapeEditor.onLBdown(x, y);
-        }
-        catch (Exception error){
+        } catch (Exception error) {
             throw new Exception("Shape is not selected. Select the shape to start editing!");
         }
     }
 
     public void onLBup() throws InstantiationException, IllegalAccessException {
-        try{
+        try {
             shapeEditor.onLBup();
             repaintShapes();
+        } catch (Exception ignored) {
         }
-        catch (Exception ignored){}
     }
 
     public void onMouseMove(int x, int y) {
@@ -88,7 +87,7 @@ public class MainEditor extends JPanel {
         repaintShapes();
     }
 
-    public void repaintShapes(){
+    public void repaintShapes() {
         repaint();
     }
 
@@ -100,11 +99,11 @@ public class MainEditor extends JPanel {
         shapeEditor.onPaint(g2d);
     }
 
-    public void saveTableAs(JFileChooser owner){
+    public void saveTableAs(JFileChooser owner) {
         shapeTable.saveTableAs(owner);
     }
 
-    public void saveTable(JFileChooser owner){
+    public void saveTable(JFileChooser owner) {
         shapeTable.saveTable(owner);
     }
 
@@ -112,7 +111,7 @@ public class MainEditor extends JPanel {
         shapeTable.loadAndRepaint(editor, myJFileChooser);
     }
 
-    public void setCurrentFile(File file){
+    public void setCurrentFile(File file) {
         shapeTable.setCurrentFile(file);
     }
 }
