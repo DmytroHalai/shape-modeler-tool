@@ -77,7 +77,7 @@ public class ShapeToolBar {
         JSpinner thicknessSpinner = new JSpinner(new SpinnerNumberModel(1, 1, 100, 1));
         thicknessSpinner.addChangeListener(e -> {
             int thickness = (int) thicknessSpinner.getValue();
-            editor.setBorderThickness(thickness);
+            editor.getShapeEditor().setBorderThickness(thickness);
         });
         settingsPanel.add(thicknessLabel);
         settingsPanel.add(thicknessSpinner);

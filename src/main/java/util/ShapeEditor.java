@@ -20,6 +20,7 @@ public class ShapeEditor {
     protected Shape currentShape;
     private Shape highlightedShape;
 
+    private int borderThickness = 1;
     private boolean fillShape = false;
     private final Stack<ReversibleCommand> changes = new Stack<>();
 
@@ -125,6 +126,15 @@ public class ShapeEditor {
     public Shape getShape(){
         return currentShape;
     }
+
+    public void setShapeThickness() {
+        getShape().setThickness(this.borderThickness);
+    }
+
+    public void setBorderThickness(int thickness) {
+        this.borderThickness = thickness;
+    }
+
 
     public void undo(){
         if (!changes.isEmpty()) {

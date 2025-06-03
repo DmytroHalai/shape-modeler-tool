@@ -16,7 +16,6 @@ public class MainEditor extends JPanel {
     private static MainEditor instance;
     private Color borderColor = Color.BLACK;
     private Color fillColor = Color.WHITE;
-    private int borderThickness = 1;
 
     public MainEditor(Frame owner) {
         shapeTable = new ShapeTable(owner, this);
@@ -53,7 +52,7 @@ public class MainEditor extends JPanel {
             if(shapeEditor.isFillShape()){
                 shapeEditor.getShape().setFillColor(fillColor);
             }
-            shapeEditor.getShape().setThickness(borderThickness);
+            shapeEditor.setShapeThickness();
             shapeEditor.unHighlightShape();
             shapeEditor.onLBdown(x, y);
         }
@@ -133,10 +132,6 @@ public class MainEditor extends JPanel {
 
     public ShapeEditor getShapeEditor() {
         return shapeEditor;
-    }
-
-    public void setBorderThickness(int thickness) {
-        this.borderThickness = thickness;
     }
 
     public void setCurrentFile(File file){
