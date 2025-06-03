@@ -1,7 +1,6 @@
 package util.fileManagers;
 
 import builder.MainEditor;
-import util.fileManagers.SceneSaver;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -49,7 +48,7 @@ public class KeyListener {
         return new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new SceneSaver(editor, fileChooser).saveSceneAsImage();
+                new SceneSaver(editor, fileChooser).save();
             }
         };
     }

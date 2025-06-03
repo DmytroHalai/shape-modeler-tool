@@ -1,7 +1,6 @@
 package util.fileManagers;
 
 import builder.MainEditor;
-import util.fileManagers.SceneSaver;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
@@ -19,7 +18,7 @@ public class MenuBarFactory {
         menu.add(createMenuItem("Save", e -> editor.saveTable(fileChooser)));
         menu.add(createMenuItem("Save as", e -> editor.saveTableAs(fileChooser)));
         menu.add(createMenuItem("Load from", e -> editor.loadAndRepaint(editor, fileChooser)));
-        menu.add(createMenuItem("Save as picture", e -> new SceneSaver(editor, fileChooser).saveSceneAsImage()));
+        menu.add(createMenuItem("Save as picture", e -> new SceneSaver(editor, fileChooser).save()));
         return menu;
     }
 

@@ -7,7 +7,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
-public class SceneSaver {
+public class SceneSaver implements FileSaver {
     private final MainEditor editor;
     private final JFileChooser fileChooser;
 
@@ -16,7 +16,8 @@ public class SceneSaver {
         this.fileChooser = fileChooser;
     }
 
-    public void saveSceneAsImage() {
+    @Override
+    public void save() {
         if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();
             if (!file.getName().endsWith(".png")) {
