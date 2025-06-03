@@ -26,7 +26,7 @@ public class BrushShapeParser extends ShapeParser {
         BrushShape shape = new BrushShape();
         shape.setPoints(PointShape.stringToPoints(points));
         shape.setBorderColor(borderColor);
-        if (fillColorStr.trim() != "") {
+        if (!fillColorStr.isEmpty()) {
             shape.setFillColor(rgbToColor(fillColorStr));
         } else {
             shape.makeEmpty();

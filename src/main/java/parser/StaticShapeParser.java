@@ -27,7 +27,7 @@ public class StaticShapeParser extends ShapeParser {
         Shape shape = ShapeFactory.createShape(name);
         shape.set(x1, y1, x2, y2);
         shape.setBorderColor(borderColor);
-        if (fillColorStr.trim() != "") {
+        if (!fillColorStr.isEmpty()) {
             shape.setFillColor(rgbToColor(fillColorStr));
         } else {
             shape.makeEmpty();
