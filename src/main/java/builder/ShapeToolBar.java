@@ -55,9 +55,9 @@ public class ShapeToolBar {
 
         JButton fillColorButton = new JButton("Fill Color");
         fillColorButton.addActionListener(e -> {
-            Color selectedColor = JColorChooser.showDialog(null, "Choose Fill Color", editor.getFillColor());
+            Color selectedColor = JColorChooser.showDialog(null, "Choose Fill Color", editor.getCurrentShapeEditor().getFillColor());
             if (selectedColor != null) {
-                editor.setFillColor(selectedColor);
+                editor.getCurrentShapeEditor().setFillColor(selectedColor);
             }
         });
         settingsPanel.add(fillColorButton);

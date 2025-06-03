@@ -25,6 +25,8 @@ public class ShapeEditor {
     private boolean fillShape = false;
     private Color borderColor = Color.BLACK;
 
+    private Color fillColor = Color.WHITE;
+
     public void onLBdown(int x, int y) {
         isDragging = true;
         if (currentShape != null) {
@@ -146,6 +148,10 @@ public class ShapeEditor {
         }
     }
 
+    public void setShapeFillColor(){
+        getShape().setFillColor(this.fillColor);
+    }
+
     public boolean isFillShape() {
         return fillShape;
     }
@@ -164,5 +170,13 @@ public class ShapeEditor {
 
     public void setBorderColor(Color borderColor) {
         this.borderColor = borderColor;
+    }
+
+    public Color getFillColor() {
+        return fillColor;
+    }
+
+    public void setFillColor(Color fillColor) {
+        this.fillColor = fillColor;
     }
 }

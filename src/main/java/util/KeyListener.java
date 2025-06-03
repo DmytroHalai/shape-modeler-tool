@@ -32,14 +32,6 @@ public class KeyListener {
         actionMap.put("load", load());
     }
 
-    public void addKeyBinding(String keyStroke, String actionName, Action action) {
-        InputMap inputMap = editor.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
-        ActionMap actionMap = editor.getActionMap();
-
-        inputMap.put(KeyStroke.getKeyStroke(keyStroke), actionName);
-        actionMap.put(actionName, action);
-    }
-
     public Action undo() {
         return new AbstractAction() {
             @Override
