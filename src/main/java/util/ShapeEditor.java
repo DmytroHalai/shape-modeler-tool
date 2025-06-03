@@ -19,6 +19,8 @@ public class ShapeEditor {
     public boolean isDragging = false;
     protected Shape currentShape;
     private Shape highlightedShape;
+
+    private boolean fillShape = false;
     private final Stack<ReversibleCommand> changes = new Stack<>();
 
     public final UpdateShapesEventSource onUpdateShapes = new UpdateShapesEventSource();
@@ -129,5 +131,17 @@ public class ShapeEditor {
             changes.pop().undo();
             onUpdateShapes.invoke(shapes);
         }
+    }
+
+    public boolean isFillShape() {
+        return fillShape;
+    }
+
+    public void fillShape() {
+        fillShape = true;
+    }
+
+    public void makeShapeEmpty() {
+        fillShape = false;
     }
 }

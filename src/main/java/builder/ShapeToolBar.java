@@ -66,9 +66,9 @@ public class ShapeToolBar {
         fillColorCheckBox.setHorizontalTextPosition(SwingConstants.LEFT);
         fillColorCheckBox.addActionListener(e -> {
             if (fillColorCheckBox.isSelected()) {
-                editor.fillShape();
+                editor.getShapeEditor().fillShape();
             } else {
-                editor.makeShapeEmpty();
+                editor.getShapeEditor().makeShapeEmpty();
             }
         });
         settingsPanel.add(fillColorCheckBox);

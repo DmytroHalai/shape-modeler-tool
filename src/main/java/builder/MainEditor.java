@@ -16,7 +16,6 @@ public class MainEditor extends JPanel {
     private static MainEditor instance;
     private Color borderColor = Color.BLACK;
     private Color fillColor = Color.WHITE;
-    private boolean fillShape = false;
     private int borderThickness = 1;
 
     public MainEditor(Frame owner) {
@@ -51,7 +50,7 @@ public class MainEditor extends JPanel {
     public void onLBdown(int x, int y) throws Exception {
         try{
             shapeEditor.getShape().setBorderColor(borderColor);
-            if(fillShape){
+            if(shapeEditor.isFillShape()){
                 shapeEditor.getShape().setFillColor(fillColor);
             }
             shapeEditor.getShape().setThickness(borderThickness);
@@ -132,12 +131,8 @@ public class MainEditor extends JPanel {
         return fillColor;
     }
 
-    public void fillShape() {
-        fillShape = true;
-    }
-
-    public void makeShapeEmpty() {
-        fillShape = false;
+    public ShapeEditor getShapeEditor() {
+        return shapeEditor;
     }
 
     public void setBorderThickness(int thickness) {
