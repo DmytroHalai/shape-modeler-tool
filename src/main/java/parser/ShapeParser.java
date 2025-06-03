@@ -10,6 +10,8 @@ public abstract class ShapeParser {
 
     public abstract Shape stringToShape(String shapeString);
 
+    public abstract Shape stringToShape(String[] shapeParts);
+
     public abstract String shapeToString(Shape shape);
 
     public abstract String[] splitStringData(Shape shape);

@@ -13,7 +13,11 @@ public class BrushShapeParser extends ShapeParser {
     @Override
     public Shape stringToShape(String shapeString) {
         String[] shapeParts = shapeString.split(separator);
+        return stringToShape(shapeParts);
+    }
 
+    @Override
+    public Shape stringToShape(String[] shapeParts) {
         String points = shapeParts[1];
         Color borderColor = rgbToColor(shapeParts[2]);
         String fillColorStr = shapeParts[3];

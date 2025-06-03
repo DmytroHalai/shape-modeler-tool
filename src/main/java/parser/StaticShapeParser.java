@@ -10,7 +10,11 @@ public class StaticShapeParser extends ShapeParser {
     @Override
     public Shape stringToShape(String shapeString) {
         String[] shapeParts = shapeString.split(separator);
+        return stringToShape(shapeParts);
+    }
 
+    @Override
+    public Shape stringToShape(String[] shapeParts) {
         String name = shapeParts[0];
         int x1 = Integer.parseInt(shapeParts[1]);
         int y1 = Integer.parseInt(shapeParts[2]);
