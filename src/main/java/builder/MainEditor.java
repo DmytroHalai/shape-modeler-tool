@@ -14,7 +14,6 @@ public class MainEditor extends JPanel {
     private final transient ShapeEditor shapeEditor;
     private final transient ShapeTable shapeTable;
     private static MainEditor instance;
-    private Color borderColor = Color.BLACK;
     private Color fillColor = Color.WHITE;
 
     public MainEditor(Frame owner) {
@@ -48,7 +47,7 @@ public class MainEditor extends JPanel {
 
     public void onLBdown(int x, int y) throws Exception {
         try{
-            shapeEditor.getShape().setBorderColor(borderColor);
+            shapeEditor.setShapeColor();
             if(shapeEditor.isFillShape()){
                 shapeEditor.getShape().setFillColor(fillColor);
             }
@@ -114,14 +113,6 @@ public class MainEditor extends JPanel {
         shapeTable.loadAndRepaint(editor, myJFileChooser);
     }
 
-    public void setBorderColor(Color color) {
-        this.borderColor = color;
-    }
-
-    public Color getBorderColor() {
-        return borderColor;
-    }
-
     public void setFillColor(Color color) {
         this.fillColor = color;
     }
@@ -129,11 +120,6 @@ public class MainEditor extends JPanel {
     public Color getFillColor() {
         return fillColor;
     }
-
-    public ShapeEditor getShapeEditor() {
-        return shapeEditor;
-    }
-
     public void setCurrentFile(File file){
         shapeTable.setCurrentFile(file);
     }

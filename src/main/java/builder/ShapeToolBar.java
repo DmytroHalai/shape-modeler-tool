@@ -46,9 +46,9 @@ public class ShapeToolBar {
 
         JButton borderColorButton = new JButton("Border Color");
         borderColorButton.addActionListener(e -> {
-            Color selectedColor = JColorChooser.showDialog(null, "Choose Border Color", editor.getBorderColor());
+            Color selectedColor = JColorChooser.showDialog(null, "Choose Border Color", editor.getCurrentShapeEditor().getBorderColor());
             if (selectedColor != null) {
-                editor.setBorderColor(selectedColor);
+                editor.getCurrentShapeEditor().setBorderColor(selectedColor);
             }
         });
         settingsPanel.add(borderColorButton);
@@ -66,9 +66,9 @@ public class ShapeToolBar {
         fillColorCheckBox.setHorizontalTextPosition(SwingConstants.LEFT);
         fillColorCheckBox.addActionListener(e -> {
             if (fillColorCheckBox.isSelected()) {
-                editor.getShapeEditor().fillShape();
+                editor.getCurrentShapeEditor().fillShape();
             } else {
-                editor.getShapeEditor().makeShapeEmpty();
+                editor.getCurrentShapeEditor().makeShapeEmpty();
             }
         });
         settingsPanel.add(fillColorCheckBox);
@@ -77,7 +77,7 @@ public class ShapeToolBar {
         JSpinner thicknessSpinner = new JSpinner(new SpinnerNumberModel(1, 1, 100, 1));
         thicknessSpinner.addChangeListener(e -> {
             int thickness = (int) thicknessSpinner.getValue();
-            editor.getShapeEditor().setBorderThickness(thickness);
+            editor.getCurrentShapeEditor().setBorderThickness(thickness);
         });
         settingsPanel.add(thicknessLabel);
         settingsPanel.add(thicknessSpinner);

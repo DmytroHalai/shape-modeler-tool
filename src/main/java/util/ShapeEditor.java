@@ -15,16 +15,15 @@ import java.util.Stack;
 
 
 public class ShapeEditor {
+    public final UpdateShapesEventSource onUpdateShapes = new UpdateShapesEventSource();
     protected final List<Shape> shapes = new ArrayList<>();
+    private final Stack<ReversibleCommand> changes = new Stack<>();
     public boolean isDragging = false;
     protected Shape currentShape;
     private Shape highlightedShape;
-
     private int borderThickness = 1;
     private boolean fillShape = false;
-    private final Stack<ReversibleCommand> changes = new Stack<>();
-
-    public final UpdateShapesEventSource onUpdateShapes = new UpdateShapesEventSource();
+    private Color borderColor = Color.BLACK;
 
     public void onLBdown(int x, int y) {
         isDragging = true;
@@ -96,7 +95,7 @@ public class ShapeEditor {
         return shapes;
     }
 
-    public void deleteShapes(){
+    public void deleteShapes() {
         if (!shapes.isEmpty()) {
             List<Shape> previous = new ArrayList<>(shapes);
             shapes.clear();
@@ -123,7 +122,7 @@ public class ShapeEditor {
         changes.push(new UpdateCommand(this.shapes, previous));
     }
 
-    public Shape getShape(){
+    public Shape getShape() {
         return currentShape;
     }
 
@@ -131,12 +130,16 @@ public class ShapeEditor {
         getShape().setThickness(this.borderThickness);
     }
 
+    public void setShapeColor() {
+        getShape().setBorderColor(this.borderColor);
+    }
+
     public void setBorderThickness(int thickness) {
         this.borderThickness = thickness;
     }
 
 
-    public void undo(){
+    public void undo() {
         if (!changes.isEmpty()) {
             changes.pop().undo();
             onUpdateShapes.invoke(shapes);
@@ -153,5 +156,13 @@ public class ShapeEditor {
 
     public void makeShapeEmpty() {
         fillShape = false;
+    }
+
+    public Color getBorderColor() {
+        return borderColor;
+    }
+
+    public void setBorderColor(Color borderColor) {
+        this.borderColor = borderColor;
     }
 }
