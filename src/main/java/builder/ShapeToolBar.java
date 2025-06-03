@@ -1,7 +1,7 @@
 package builder;
 
-import drawers.*;
 import drawers.Shape;
+import drawers.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,8 +10,8 @@ import java.awt.event.ActionListener;
 
 public class ShapeToolBar {
     private final JPanel panel;
-    private JButton lastPressedButton;
     private final MainEditor editor;
+    private JButton lastPressedButton;
 
     public ShapeToolBar(MainEditor editor) {
         this.panel = new JPanel();
@@ -46,18 +46,18 @@ public class ShapeToolBar {
 
         JButton borderColorButton = new JButton("Border Color");
         borderColorButton.addActionListener(e -> {
-            Color selectedColor = JColorChooser.showDialog(null, "Choose Border Color", editor.getBorderColor());
+            Color selectedColor = JColorChooser.showDialog(null, "Choose Border Color", editor.getCurrentShapeEditor().getBorderColor());
             if (selectedColor != null) {
-                editor.setBorderColor(selectedColor);
+                editor.getCurrentShapeEditor().setBorderColor(selectedColor);
             }
         });
         settingsPanel.add(borderColorButton);
 
         JButton fillColorButton = new JButton("Fill Color");
         fillColorButton.addActionListener(e -> {
-            Color selectedColor = JColorChooser.showDialog(null, "Choose Fill Color", editor.getFillColor());
+            Color selectedColor = JColorChooser.showDialog(null, "Choose Fill Color", editor.getCurrentShapeEditor().getFillColor());
             if (selectedColor != null) {
-                editor.setFillColor(selectedColor);
+                editor.getCurrentShapeEditor().setFillColor(selectedColor);
             }
         });
         settingsPanel.add(fillColorButton);
@@ -66,9 +66,9 @@ public class ShapeToolBar {
         fillColorCheckBox.setHorizontalTextPosition(SwingConstants.LEFT);
         fillColorCheckBox.addActionListener(e -> {
             if (fillColorCheckBox.isSelected()) {
-                editor.fillShape();
+                editor.getCurrentShapeEditor().fillShape();
             } else {
-                editor.makeShapeEmpty();
+                editor.getCurrentShapeEditor().makeShapeEmpty();
             }
         });
         settingsPanel.add(fillColorCheckBox);
@@ -77,7 +77,7 @@ public class ShapeToolBar {
         JSpinner thicknessSpinner = new JSpinner(new SpinnerNumberModel(1, 1, 100, 1));
         thicknessSpinner.addChangeListener(e -> {
             int thickness = (int) thicknessSpinner.getValue();
-            editor.setBorderThickness(thickness);
+            editor.getCurrentShapeEditor().setBorderThickness(thickness);
         });
         settingsPanel.add(thicknessLabel);
         settingsPanel.add(thicknessSpinner);

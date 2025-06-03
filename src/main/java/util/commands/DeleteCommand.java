@@ -5,7 +5,7 @@ import drawers.Shape;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DeleteCommand implements ReversibleCommand{
+public class DeleteCommand implements ReversibleCommand {
     private final List<Shape> shapes;
     private final List<Tuple> deleted;
 
@@ -29,7 +29,7 @@ public class DeleteCommand implements ReversibleCommand{
         }
     }
 
-    public static class Tuple{
+    public static class Tuple {
         public final Shape shape;
         public final int index;
 
