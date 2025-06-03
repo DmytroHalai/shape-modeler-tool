@@ -1,4 +1,4 @@
-package util;
+package util.fileManagers;
 
 import builder.MainEditor;
 
@@ -21,6 +21,7 @@ public class KeyListener {
 
         inputMap.put(KeyStroke.getKeyStroke("ctrl Z"), "undo");
         inputMap.put(KeyStroke.getKeyStroke("ctrl S"), "save");
+        inputMap.put(KeyStroke.getKeyStroke("ctrl shift S"), "saveAsPicture");
         inputMap.put(KeyStroke.getKeyStroke("ctrl T"), "showTable");
         inputMap.put(KeyStroke.getKeyStroke("ctrl L"), "load");
         inputMap.put(KeyStroke.getKeyStroke("ctrl X"), "deleteLastShape");
@@ -28,6 +29,7 @@ public class KeyListener {
         actionMap.put("undo", undo());
         actionMap.put("deleteLastShape", deleteLastShape());
         actionMap.put("save", save());
+        actionMap.put("saveAsPicture", saveAsPicture());
         actionMap.put("showTable", showTable());
         actionMap.put("load", load());
     }
@@ -38,6 +40,15 @@ public class KeyListener {
             public void actionPerformed(ActionEvent e) {
                 editor.getCurrentShapeEditor().undo();
                 editor.repaint();
+            }
+        };
+    }
+
+    public Action saveAsPicture() {
+        return new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new SceneSaver(editor, fileChooser).save();
             }
         };
     }
