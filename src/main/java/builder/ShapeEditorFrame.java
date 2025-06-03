@@ -1,7 +1,8 @@
 package builder;
 
 import util.MouseHandler;
-import util.MenuBarFactory;
+import util.fileManagers.MenuBarFactory;
+import util.fileManagers.KeyListener;
 
 import javax.swing.*;
 import java.awt.*;
@@ -43,6 +44,6 @@ public class ShapeEditorFrame extends JFrame {
         editor.addMouseListener(mouseHandler);
         editor.addMouseMotionListener(mouseHandler);
 
-        new util.KeyListener(editor, fileChooser);
+        new KeyListener(editor, fileChooser);
     }
 }
