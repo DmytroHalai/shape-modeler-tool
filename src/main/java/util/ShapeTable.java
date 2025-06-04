@@ -147,14 +147,12 @@ public class ShapeTable extends JDialog {
     }
 
     public void loadAndRepaint(MainEditor editor, JFileChooser owner) {
-        List<Shape> shapes = new ArrayList<>();
         if (owner.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-            shapes = shapeFileLoader.load(owner.getSelectedFile());
+            List<Shape> shapes = shapeFileLoader.load(owner.getSelectedFile());
+            updateTable(shapes);
+            onTableUpdate.invoke(shapes);
+            editor.repaintShapes();
         }
-
-        updateTable(shapes);
-        onTableUpdate.invoke(shapes);
-        editor.repaintShapes();
     }
 
     private void showBrushCoordinates(BrushShape brush) {

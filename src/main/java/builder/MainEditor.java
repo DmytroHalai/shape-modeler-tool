@@ -122,13 +122,11 @@ public class MainEditor extends JPanel {
     }
 
     public void load(JFileChooser myJFileChooser) {
-        List<Shape> shapes = new ArrayList<>();
         if (myJFileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-            shapes = shapeFileLoader.load(myJFileChooser.getSelectedFile());
+            List<Shape> shapes = shapeFileLoader.load(myJFileChooser.getSelectedFile());
+            shapeEditor.updateShapes(shapes);
+            repaintShapes();
         }
-
-        shapeEditor.updateShapes(shapes);
-        repaintShapes();
     }
 
     public void setCurrentFile(File file) {
