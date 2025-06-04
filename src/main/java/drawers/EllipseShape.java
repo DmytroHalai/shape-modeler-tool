@@ -10,7 +10,7 @@ public class EllipseShape extends Shape {
         int width = Math.abs(xs2 - xs1);
         int height = Math.abs(ys2 - ys1);
 
-        if (fillColor != Color.WHITE) {
+        if (isFilled) {
             g.setColor(fillColor);
             new StrokeSetter(g, thickness, isMark, 10);
             g.fillOval(x, y, width, height);

@@ -1,22 +1,39 @@
 package builder;
 
-
 import drawers.Shape;
+import parser.ShapeParser;
+import parser.UltimateShapeParser;
+import util.fileManagers.ShapeFileLoader;
+import util.fileManagers.ShapeFileSaver;
 import util.ShapeEditor;
+import util.ShapeTable;
+import util.updateShapesEvent.ShapeTableOnUpdateShapesEventListener;
+import util.updateTableEvent.ShapeEditorOnUpdateTableEventListener;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainEditor extends JPanel {
-    private final transient ShapeEditor shapeEditor;
     private static MainEditor instance;
-    private Color borderColor = Color.BLACK;
-    private Color fillColor = Color.WHITE;
-    private int borderThickness = 1;
+    private final transient ShapeEditor shapeEditor;
+    private final transient ShapeTable shapeTable;
+
+    public final ShapeFileSaver shapeFileSaver;
+    public final ShapeFileLoader shapeFileLoader;
 
     public MainEditor(Frame owner) {
-        shapeEditor = new ShapeEditor(this, owner);
+        shapeEditor = new ShapeEditor();
+        ShapeParser shapeParser = new UltimateShapeParser();
+        shapeFileSaver = new ShapeFileSaver(shapeParser);
+        shapeFileLoader = new ShapeFileLoader(shapeParser);
+        shapeTable = new ShapeTable(owner, this, shapeParser, shapeFileSaver, shapeFileLoader);
+        ShapeTableOnUpdateShapesEventListener tableListener = new ShapeTableOnUpdateShapesEventListener(shapeTable);
+        shapeEditor.onUpdateShapes.addListener(tableListener);
+        ShapeEditorOnUpdateTableEventListener editorListener = new ShapeEditorOnUpdateTableEventListener(shapeEditor);
+        shapeTable.onTableUpdate.addListener(editorListener);
     }
 
     public static MainEditor getInstance(Frame owner) {
@@ -40,24 +57,25 @@ public class MainEditor extends JPanel {
     }
 
     public void onLBdown(int x, int y) throws Exception {
-        try{
-            shapeEditor.getShape().setBorderColor(borderColor);
-            shapeEditor.getShape().setFillColor(fillColor);
-            shapeEditor.getShape().setThickness(borderThickness);
+        try {
+            shapeEditor.setShapeColor();
+            if (shapeEditor.isFillShape()) {
+                shapeEditor.setShapeFillColor();
+            }
+            shapeEditor.setShapeThickness();
             shapeEditor.unHighlightShape();
             shapeEditor.onLBdown(x, y);
-        }
-        catch (Exception error){
+        } catch (Exception error) {
             throw new Exception("Shape is not selected. Select the shape to start editing!");
         }
     }
 
     public void onLBup() throws InstantiationException, IllegalAccessException {
-        try{
+        try {
             shapeEditor.onLBup();
             repaintShapes();
+        } catch (Exception ignored) {
         }
-        catch (Exception ignored){}
     }
 
     public void onMouseMove(int x, int y) {
@@ -73,7 +91,7 @@ public class MainEditor extends JPanel {
     }
 
     public void showTable() {
-        shapeEditor.showTable();
+        shapeTable.showTable();
     }
 
     public void highlightShape(Shape shape) {
@@ -81,7 +99,7 @@ public class MainEditor extends JPanel {
         repaintShapes();
     }
 
-    public void repaintShapes(){
+    public void repaintShapes() {
         repaint();
     }
 
@@ -93,39 +111,25 @@ public class MainEditor extends JPanel {
         shapeEditor.onPaint(g2d);
     }
 
-    public void saveTableAs(JFileChooser owner){
-        shapeEditor.saveTableAs(owner);
+    public void saveAs(JFileChooser owner) {
+        shapeFileSaver.setShapes(shapeEditor.getShapes());
+        shapeFileSaver.saveAs(owner, this);
     }
 
-    public void saveTable(JFileChooser owner){
-        shapeEditor.saveTable(owner);
+    public void save(JFileChooser owner) {
+        shapeFileSaver.setShapes(shapeEditor.getShapes());
+        shapeFileSaver.tryToSave(owner, this);
     }
 
-    public void loadAndRepaint(MainEditor editor, JFileChooser myJFileChooser) {
-        shapeEditor.loadAndRepaint(editor, myJFileChooser);
+    public void load(JFileChooser myJFileChooser) {
+        if (myJFileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            List<Shape> shapes = shapeFileLoader.load(myJFileChooser.getSelectedFile());
+            shapeEditor.updateShapes(shapes);
+            repaintShapes();
+        }
     }
 
-    public void setBorderColor(Color color) {
-        this.borderColor = color;
-    }
-
-    public Color getBorderColor() {
-        return borderColor;
-    }
-
-    public void setFillColor(Color color) {
-        this.fillColor = color;
-    }
-
-    public Color getFillColor() {
-        return fillColor;
-    }
-
-    public void setBorderThickness(int thickness) {
-        this.borderThickness = thickness;
-    }
-
-    public void setCurrentFile(File file){
-        shapeEditor.setCurrentFile(file);
+    public void setCurrentFile(File file) {
+        shapeFileSaver.setFile(file);
     }
 }

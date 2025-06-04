@@ -2,13 +2,13 @@ package drawers;
 
 import java.awt.*;
 
-public class LineOOShape extends Shape implements EllipseDrawer, LineDrawer {
+public class LineSegmentShape extends Shape implements EllipseDrawer, LineDrawer {
 
     final int RADIUS = 10;
 
     @Override
     public void showEl(Graphics2D g, int x, int y, int width, int height, boolean isMark, boolean isHighlight) {
-        if (fillColor != Color.WHITE) {
+        if (isFilled) {
             g.setColor(fillColor);
             new StrokeSetter(g, thickness, isMark, RADIUS);
             g.fillOval(x, y, width, height);
@@ -40,6 +40,6 @@ public class LineOOShape extends Shape implements EllipseDrawer, LineDrawer {
 
     @Override
     public String getType() {
-        return "LineOO";
+        return "LineSegment";
     }
 }

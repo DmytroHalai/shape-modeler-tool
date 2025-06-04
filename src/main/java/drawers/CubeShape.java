@@ -14,7 +14,7 @@ public class CubeShape extends Shape implements LineDrawer, RectDrawer {
 
     @Override
     public void showRect(Graphics2D g, int x, int y, int width, boolean isMark, boolean isHighlight) {
-        if (fillColor != Color.WHITE) {
+        if (isFilled) {
             g.setColor(fillColor);
             new StrokeSetter(g, thickness, isMark, 10);
             g.fillRect(x, y, width, width);
