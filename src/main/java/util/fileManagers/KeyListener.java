@@ -67,7 +67,7 @@ public class KeyListener {
         return new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                editor.saveTable(fileChooser);
+                editor.save(fileChooser);
             }
         };
     }
@@ -85,7 +85,7 @@ public class KeyListener {
         return new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                editor.loadAndRepaint(editor, fileChooser);
+                editor.load(fileChooser);
             }
         };
     }

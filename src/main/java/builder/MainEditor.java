@@ -1,6 +1,10 @@
 package builder;
 
 import drawers.Shape;
+import parser.ShapeParser;
+import parser.UltimateShapeParser;
+import util.fileManagers.ShapeFileLoader;
+import util.fileManagers.ShapeFileSaver;
 import util.ShapeEditor;
 import util.ShapeTable;
 import util.updateShapesEvent.ShapeTableOnUpdateShapesEventListener;
@@ -9,15 +13,23 @@ import util.updateTableEvent.ShapeEditorOnUpdateTableEventListener;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainEditor extends JPanel {
     private static MainEditor instance;
     private final transient ShapeEditor shapeEditor;
     private final transient ShapeTable shapeTable;
 
+    public final ShapeFileSaver shapeFileSaver;
+    public final ShapeFileLoader shapeFileLoader;
+
     public MainEditor(Frame owner) {
-        shapeTable = new ShapeTable(owner, this);
         shapeEditor = new ShapeEditor();
+        ShapeParser shapeParser = new UltimateShapeParser();
+        shapeFileSaver = new ShapeFileSaver(shapeParser);
+        shapeFileLoader = new ShapeFileLoader(shapeParser);
+        shapeTable = new ShapeTable(owner, this, shapeParser, shapeFileSaver, shapeFileLoader);
         ShapeTableOnUpdateShapesEventListener tableListener = new ShapeTableOnUpdateShapesEventListener(shapeTable);
         shapeEditor.onUpdateShapes.addListener(tableListener);
         ShapeEditorOnUpdateTableEventListener editorListener = new ShapeEditorOnUpdateTableEventListener(shapeEditor);
@@ -99,19 +111,27 @@ public class MainEditor extends JPanel {
         shapeEditor.onPaint(g2d);
     }
 
-    public void saveTableAs(JFileChooser owner) {
-        shapeTable.saveTableAs(owner);
+    public void saveAs(JFileChooser owner) {
+        shapeFileSaver.setShapes(shapeEditor.getShapes());
+        shapeFileSaver.saveAs(owner, this);
     }
 
-    public void saveTable(JFileChooser owner) {
-        shapeTable.saveTable(owner);
+    public void save(JFileChooser owner) {
+        shapeFileSaver.setShapes(shapeEditor.getShapes());
+        shapeFileSaver.tryToSave(owner, this);
     }
 
-    public void loadAndRepaint(MainEditor editor, JFileChooser myJFileChooser) {
-        shapeTable.loadAndRepaint(editor, myJFileChooser);
+    public void load(JFileChooser myJFileChooser) {
+        List<Shape> shapes = new ArrayList<>();
+        if (myJFileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            shapes = shapeFileLoader.load(myJFileChooser.getSelectedFile());
+        }
+
+        shapeEditor.updateShapes(shapes);
+        repaintShapes();
     }
 
     public void setCurrentFile(File file) {
-        shapeTable.setCurrentFile(file);
+        shapeFileSaver.setFile(file);
     }
 }

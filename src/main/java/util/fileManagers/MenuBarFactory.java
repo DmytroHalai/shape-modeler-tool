@@ -15,9 +15,9 @@ public class MenuBarFactory {
 
     private static JMenu createFileMenu(MainEditor editor, JFileChooser fileChooser) {
         JMenu menu = new JMenu("File");
-        menu.add(createMenuItem("Save", e -> editor.saveTable(fileChooser)));
-        menu.add(createMenuItem("Save as", e -> editor.saveTableAs(fileChooser)));
-        menu.add(createMenuItem("Load from", e -> editor.loadAndRepaint(editor, fileChooser)));
+        menu.add(createMenuItem("Save", e -> editor.save(fileChooser)));
+        menu.add(createMenuItem("Save as", e -> editor.saveAs(fileChooser)));
+        menu.add(createMenuItem("Load from", e -> editor.load(fileChooser)));
         menu.add(createMenuItem("Save as picture", e -> new SceneSaver(editor, fileChooser).save()));
         return menu;
     }
