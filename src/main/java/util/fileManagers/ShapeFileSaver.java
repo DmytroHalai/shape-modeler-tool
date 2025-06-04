@@ -1,8 +1,7 @@
-package shapeIO;
+package util.fileManagers;
 
 import drawers.Shape;
 import parser.ShapeParser;
-import util.fileManagers.FileSaver;
 
 import javax.swing.*;
 import java.awt.*;

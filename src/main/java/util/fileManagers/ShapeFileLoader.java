@@ -1,4 +1,4 @@
-package shapeIO;
+package util.fileManagers;
 
 import drawers.Shape;
 import parser.ShapeParser;
