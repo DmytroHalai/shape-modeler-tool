@@ -8,6 +8,47 @@ HELL is a Java-based application designed to model and manipulate geometric shap
 - Unit testing with JUnit 5.
 - Mocking capabilities with Mockito.
 
+## Key Functional Features
+
+- **Basic Shape Rendering**  
+  - Point  
+  - Line  
+  - Ellipse  
+  - Rectangle  
+  - Cube
+  - Line Segment
+
+- **Freeform Drawing**  
+  - Use brush mode for freehand drawing.
+
+- **Fill and Stroke Options**  
+  - Select fill color for shapes.  
+  - Choose stroke color and thickness.
+
+- **Toolbar with Visual Feedback**  
+  - Active shape type is highlighted.
+
+- **Canvas Operations**  
+  - Clear all shapes from the canvas.  
+  - Undo the last action with **Ctrl+Z**.  
+  - Delete the last shape with **Ctrl+X**.
+
+- **Shape Table View**  
+  - View all shapes with details in a table.  
+  - Highlight and delete shapes from the table.
+
+- **Scene File Operations**  
+  - Save scene as `.txt` (editable format).  
+  - Save scene as `.png` (image format).  
+  - Load scene from `.txt` file.
+
+- **Keyboard Shortcuts**
+  - **Ctrl+S** – Save scene as `.txt`  
+  - **Ctrl+Shift+S** – Save scene as `.png`  
+  - **Ctrl+T** – Open shape table  
+  - **Ctrl+L** – Load scene from file
+
+
 ## Requirements
 
 - Java 21
